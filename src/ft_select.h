@@ -7,11 +7,16 @@
 #include <unistd.h>
 #include <assert.h>
 #include <termios.h>
+#include <strings.h>
+#include <string.h>
+#include <sys/ioctl.h>
 
 typedef struct s_data
 {
 	
 }	t_data;
 
+
+void	print_data(char **argv);
 
 #endif

@@ -35,21 +35,21 @@ int main(int argc, char **argv)
 
 
     char buf[1024];
-    char *str;
 
     tgetent(buf, getenv("TERM"));
 	// str = tgetstr("cl", NULL);
-	str = "";
+	char str[4096 + 1];
 	while (1)
 	{
-		char c;
+		print_data(&argv[1]);
+		read(STDIN_FILENO, &str, 4096);
 
-		read(STDIN_FILENO, &c, 1);
+		// printf("Data\n$%s", str);
+		// fflush(stdout);
 
-		printf("%s$%c",str, c);
-		fflush(stdout);
-		if (c == 'c')
+		if (strcmp(str, "c") == 0)
 			break;
+		bzero(&str, 4096);
 	}
 	
 	assert(tcsetattr(STDIN_FILENO, 0, &original) != -1);
