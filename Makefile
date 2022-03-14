@@ -11,7 +11,7 @@ RM =rm -rf
 all: $(NAME)
 
 $(NAME): $(SRC)
-	$(CC) $(FLAGS) $(LIBS) $(SRC) -o $(NAME)
+	$(CC) $(FLAGS) $(LIBS) $(SRC) -o $(NAME) -ltermcap
 
 clean:
 	$(RM) $(OBJ)
