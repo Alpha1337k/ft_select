@@ -25,4 +25,4 @@ run: re
 	./$(NAME)
 
 debug: fclean
-	$(CC) $(FLAGS) $(DEBUG_FLAGS) $(LIBS) $(SRC) -o $(NAME)
+	$(CC) $(FLAGS) $(DEBUG_FLAGS) $(LIBS) $(SRC) -o $(NAME) -ltermcap
