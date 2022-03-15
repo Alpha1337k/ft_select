@@ -18,7 +18,7 @@ int main(int argc, char **argv)
 		return 0;
 	}
 	(void)argv;
-	if (isatty(STDOUT_FILENO) == 0)
+	if (isatty(STDERR_FILENO) == 0)
 	{
 		write(2, "Error: terminal expected\n", 26);
 		return (1);
@@ -34,8 +34,6 @@ int main(int argc, char **argv)
 	data.selected_map = malloc(sizeof(char) * data.file_count);
 	data.columns = 0;
 
-	printf("%d %d %d\n", term_data.c_lflag, term_data.c_lflag & ICANON, term_data.c_lflag ^ 2);
-
 	term_data.c_lflag = term_data.c_lflag ^ (ICANON | ECHO);
 
 
@@ -48,13 +46,15 @@ int main(int argc, char **argv)
 	char str[4096 + 1];
 	while (1)
 	{
+		bzero(&str, 4096);
 		print_files(&data);
 		read(STDIN_FILENO, str, 4096);
 
 		if (read_command(&data, str) == 0)
 			break;
-		bzero(&str, 4096);
 	}
+
+	print_result(&data);
 	
 	assert(tcsetattr(STDIN_FILENO, 0, &original) != -1);
 

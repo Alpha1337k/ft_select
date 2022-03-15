@@ -51,3 +51,26 @@ void	print_files(t_data *data)
 	}
 	fflush(stdout);
 }
+
+void	print_result(t_data *data)
+{
+	int x = 0;
+	int is_not_first = 0;
+
+	printf("\n");
+	while (data->files[x])
+	{
+		if (data->selected_map[x])
+		{
+			if (is_not_first == 1)
+			{
+				printf(" ");
+			}
+			else
+				is_not_first = 1;
+			printf("%s", data->files[x]);
+		}
+		x++;
+	}
+	printf("\n");
+}

@@ -24,6 +24,7 @@ typedef struct s_data
 
 
 void	print_files(t_data *data);
+void	print_result(t_data *data);
 int		get_max_len(char **argv);
 
 int		read_command(t_data *data, char *str);
