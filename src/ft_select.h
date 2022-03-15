@@ -10,6 +10,7 @@
 #include <strings.h>
 #include <string.h>
 #include <sys/ioctl.h>
+#include <signal.h>
 
 typedef struct s_data
 {
@@ -18,8 +19,9 @@ typedef struct s_data
 	int file_count;
 	int max_file_len;
 	int	columns;
-
 	int index;
+
+	struct termios original;
 }	t_data;
 
 

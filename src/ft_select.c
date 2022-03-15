@@ -1,6 +1,30 @@
 #include <ft_select.h>
 #include <termcap.h>
 
+t_data data;
+
+void handle_signal(int type)
+{
+	(void)type;
+
+	free(data.selected_map);
+	tcsetattr(STDERR_FILENO, 0, &data.original);
+
+
+	exit(1);
+}
+
+void signal_setup()
+{
+	signal(SIGWINCH, handle_signal);
+	signal(SIGABRT, handle_signal);
+	signal(SIGINT, handle_signal);
+	signal(SIGSTOP, handle_signal);
+	signal(SIGCONT, handle_signal);
+	signal(SIGTSTP, handle_signal);
+	signal(SIGKILL, handle_signal);
+	signal(SIGQUIT, handle_signal);
+}
 
 void help()
 {
@@ -9,8 +33,7 @@ void help()
 
 int main(int argc, char **argv)
 {
-	struct termios term_data, original;
-	t_data data;
+	struct termios term_data;
 
 	if (argc == 1)
 	{
@@ -24,8 +47,9 @@ int main(int argc, char **argv)
 		return (1);
 	}
 
-	tcgetattr(STDIN_FILENO, &term_data);
-	tcgetattr(STDIN_FILENO, &original);
+	signal_setup();
+	tcgetattr(STDERR_FILENO, &term_data);
+	tcgetattr(STDERR_FILENO, &data.original);
 
 	data.files = &argv[1];
 	data.file_count = argc - 1;
@@ -34,10 +58,12 @@ int main(int argc, char **argv)
 	data.selected_map = malloc(sizeof(char) * data.file_count);
 	data.columns = 0;
 
+	term_data.c_cc[VMIN] = 1;
+	term_data.c_cc[VTIME] = 0;
 	term_data.c_lflag = term_data.c_lflag ^ (ICANON | ECHO);
 
 
-	assert(tcsetattr(STDIN_FILENO, 0, &term_data) != -1);
+	assert(tcsetattr(STDERR_FILENO, 0, &term_data) != -1);
 
 
     char buf[1024];
@@ -56,7 +82,9 @@ int main(int argc, char **argv)
 
 	print_result(&data);
 	
-	assert(tcsetattr(STDIN_FILENO, 0, &original) != -1);
+	assert(tcsetattr(STDERR_FILENO, 0, &data.original) != -1);
+	free(data.selected_map);
+
 
 	return 0;
 }
