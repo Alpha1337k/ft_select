@@ -13,10 +13,19 @@
 
 typedef struct s_data
 {
-	
+	char **files;
+	char *selected_map;
+	int file_count;
+	int max_file_len;
+	int	columns;
+
+	int index;
 }	t_data;
 
 
-void	print_data(char **argv);
+void	print_files(t_data *data);
+int		get_max_len(char **argv);
+
+int		read_command(t_data *data, char *str);
 
 #endif

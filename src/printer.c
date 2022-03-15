@@ -20,22 +20,34 @@ void	move(int x, int y)
 
 }
 
-void	print_data(char **argv)
+void	print_files(t_data *data)
 {
-	(void)argv;
 	struct winsize w;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 
-	int x = 0, max_len = get_max_len(argv) + 1;
-	int columns = w.ws_col / max_len;
+	int x = 0;
+	data->columns = w.ws_col / data->max_file_len;
+
 	puts(tgetstr("cl", NULL));
 	move(0, 0);
-	while (argv[x])
+	while (data->files[x])
 	{
-		move((x % columns) * max_len, x / columns);
-		printf("%s", argv[x], (x % columns) * max_len, x / columns);
+		move((x % data->columns) * data->max_file_len, x / data->columns);
+		if (x == data->index && data->selected_map[x] == 1)
+		{
+			printf("%s%s%s%s%s", tgetstr("us", NULL), tgetstr("mr", NULL), data->files[x], tgetstr("ue", NULL), tgetstr("me", NULL));
+		}
+		else if (x == data->index)
+		{
+			printf("%s%s%s", tgetstr("us", NULL), data->files[x], tgetstr("ue", NULL));
+		}
+		else if (data->selected_map[x] == 1)
+		{
+			printf("%s%s%s", tgetstr("mr", NULL), data->files[x], tgetstr("me", NULL));
+		}
+		else
+			printf("%s", data->files[x]);
 		x++;
 	}
 	fflush(stdout);
-	printf("\ncols: %d %d\n", columns, max_len);
 }
