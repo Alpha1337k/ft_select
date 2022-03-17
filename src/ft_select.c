@@ -19,14 +19,21 @@ int main(int argc, char **argv)
 	fprintf(stderr, "%s%s", get_termcap("ti"), get_termcap("vi"));
 
 	char str[4096 + 1];
+	int ret;
 	while (1)
 	{
 		bzero(&str, 4096);
 		print_files(data);
 		read(STDIN_FILENO, str, 4096);
 
-		if (read_command(data, str) == 0)
+		// for (size_t i = 0; str[i]; i++)
+		// {
+		// 	printf("%d\n", str[i]);
+		// }
+		ret = read_command(data, str); 
+		if (ret != 1)
 			break;
+		
 	}
 
 	if (tcsetattr(STDERR_FILENO, 0, &data->original))
@@ -34,7 +41,8 @@ int main(int argc, char **argv)
 	fprintf(stderr, "%s%s", get_termcap("te"), get_termcap("ve"));
 
 	fflush(stderr);
-	print_result(data);
+	if (ret == 0)
+		print_result(data);
 	free(data->selected_map);
 
 

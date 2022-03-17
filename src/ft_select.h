@@ -16,6 +16,7 @@ typedef struct s_data
 {
 	char **files;
 	char *selected_map;
+	int selected_len;
 	int file_count;
 	int max_file_len;
 	int	columns;
