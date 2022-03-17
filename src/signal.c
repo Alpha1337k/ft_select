@@ -5,10 +5,10 @@ void handle_signal(int type)
 	(void)type;
 	t_data *data = get_data();
 
-	fprintf(stderr, "SIGNAL DETECTED %d\n", type);
 
 	free(data->selected_map);
-	tcsetattr(STDERR_FILENO, 0, &data->original);
+	fprintf(stderr, "%s%s", get_termcap("te"), get_termcap("ve"));
+	assert(tcsetattr(STDERR_FILENO, 0, &data->original) != -1);
 
 	exit(1);
 }
