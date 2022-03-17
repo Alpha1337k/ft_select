@@ -46,6 +46,10 @@ int main(int argc, char **argv)
 		write(2, "Error: terminal expected\n", 26);
 		return (1);
 	}
+    char buf[1024];
+
+	if (tgetent(buf, getenv("TERM")) < 1)
+		assert(0);
 
 	signal_setup();
 	tcgetattr(STDERR_FILENO, &term_data);
@@ -55,20 +59,17 @@ int main(int argc, char **argv)
 	data.file_count = argc - 1;
 	data.max_file_len = get_max_len(data.files) + 1;
 	data.index = 0;
-	data.selected_map = malloc(sizeof(char) * data.file_count);
+	data.selected_map = calloc(data.file_count, sizeof(char));
 	data.columns = 0;
 
 	term_data.c_cc[VMIN] = 1;
 	term_data.c_cc[VTIME] = 0;
 	term_data.c_lflag = term_data.c_lflag ^ (ICANON | ECHO);
 
-
 	assert(tcsetattr(STDERR_FILENO, 0, &term_data) != -1);
 
+	fprintf(stderr, "%s%s", tgetstr("ti", 0), tgetstr("vi", 0));
 
-    char buf[1024];
-
-    tgetent(buf, getenv("TERM"));
 	char str[4096 + 1];
 	while (1)
 	{
@@ -80,9 +81,12 @@ int main(int argc, char **argv)
 			break;
 	}
 
+	if (tcsetattr(STDERR_FILENO, 0, &data.original))
+		assert(0);
+	fprintf(stderr, "%s%s", tgetstr("te", 0), tgetstr("ve", 0));
+
+	fflush(stderr);
 	print_result(&data);
-	
-	assert(tcsetattr(STDERR_FILENO, 0, &data.original) != -1);
 	free(data.selected_map);
 
 

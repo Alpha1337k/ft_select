@@ -76,7 +76,6 @@ void	print_result(t_data *data)
 	int x = 0;
 	int is_not_first = 0;
 
-	fprintf(stderr,"\n");
 	while (data->files[x])
 	{
 		if (data->selected_map[x])
