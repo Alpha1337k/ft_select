@@ -22,6 +22,7 @@ typedef struct s_data
 	int index;
 
 	struct termios original;
+	struct termios term_data;
 }	t_data;
 
 
@@ -31,5 +32,12 @@ int		get_max_len(char **argv);
 
 int		read_command(t_data *data, char *str);
 void	print_command(char *type);
+
+t_data *get_data();
+char *get_termcap(char *str);
+
+void handle_signal(int type);
+
+void init(int argc, char **argv);
 
 #endif
