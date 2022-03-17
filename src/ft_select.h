@@ -40,5 +40,6 @@ char *get_termcap(char *str);
 void handle_signal(int type);
 
 void init(int argc, char **argv);
+void run(t_data *data);
 
 #endif

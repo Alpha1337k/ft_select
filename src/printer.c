@@ -48,7 +48,6 @@ void	print_files(t_data *data)
 	int x = data->columns * offset;
 
 	fprintf(stderr,"%s", get_termcap("cl"));
-	move(0, 0);
 	while (data->files[x] && x / data->columns < offset + w.ws_row)
 	{
 		move((x % data->columns) * data->max_file_len, (x / data->columns) - offset);

@@ -6,6 +6,31 @@ void help()
 	write(2, "Usage: ft_select [files..]\n", 28);
 }
 
+void run(t_data *data)
+{
+	char str[4096 + 1];
+	int ret;
+	while (1)
+	{
+		bzero(&str, 4096);
+		print_files(data);
+		read(STDIN_FILENO, str, 4096);
+
+		ret = read_command(data, str); 
+		if (ret != 1)
+			break;	
+	}
+	if (tcsetattr(STDERR_FILENO, 0, &data->original))
+		assert(0);
+	fprintf(stderr, "%s%s", get_termcap("te"), get_termcap("ve"));
+
+	fflush(stderr);
+	if (ret == 0)
+		print_result(data);
+	free(data->selected_map);
+	exit(0);
+}
+
 int main(int argc, char **argv)
 {
 	t_data *data = get_data();
@@ -17,33 +42,7 @@ int main(int argc, char **argv)
 
 	init(argc, argv);
 	fprintf(stderr, "%s%s", get_termcap("ti"), get_termcap("vi"));
-
-	char str[4096 + 1];
-	int ret;
-	while (1)
-	{
-		bzero(&str, 4096);
-		print_files(data);
-		read(STDIN_FILENO, str, 4096);
-
-		// for (size_t i = 0; str[i]; i++)
-		// {
-		// 	printf("%d\n", str[i]);
-		// }
-		ret = read_command(data, str); 
-		if (ret != 1)
-			break;
-		
-	}
-
-	if (tcsetattr(STDERR_FILENO, 0, &data->original))
-		assert(0);
-	fprintf(stderr, "%s%s", get_termcap("te"), get_termcap("ve"));
-
-	fflush(stderr);
-	if (ret == 0)
-		print_result(data);
-	free(data->selected_map);
+	run(data);
 
 
 	return 0;
