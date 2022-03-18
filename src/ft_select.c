@@ -14,7 +14,8 @@ void run(t_data *data)
 	{
 		bzero(&str, 4096);
 		print_files(data);
-		read(STDIN_FILENO, str, 4096);
+		if (read(STDIN_FILENO, str, 4096) <= 0)
+			break;
 
 		ret = read_command(data, str); 
 		if (ret != 1)
@@ -43,7 +44,6 @@ int main(int argc, char **argv)
 	init(argc, argv);
 	fprintf(stderr, "%s%s", get_termcap("ti"), get_termcap("vi"));
 	run(data);
-
 
 	return 0;
 }

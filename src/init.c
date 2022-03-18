@@ -14,13 +14,16 @@ void signal_setup()
 
 void load_data(t_data *data, int argc, char **argv)
 {
-	data->files = &argv[1];
-	data->file_count = argc - 1;
-	data->max_file_len = get_max_len(data->files) + 1;
-	data->index = 0;
-	data->selected_map = calloc(data->file_count, sizeof(char));
+	if (argv != 0)
+	{
+		data->files = &argv[1];
+		data->file_count = argc - 1;
+		data->max_file_len = get_max_len(data->files) + 1;
+		data->index = 0;
+		data->selected_map = calloc(data->file_count, sizeof(char));
+	}
 	data->columns = 0;
-	data->term_data.c_lflag = data->term_data.c_lflag ^ (ICANON | ECHO);
+	data->term_data.c_lflag &= ~(ICANON | ECHO);
 }
 
 
