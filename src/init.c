@@ -40,9 +40,9 @@ void init(int argc, char **argv)
 	if (tgetent(buf, getenv("TERM")) < 1)
 		assert(0);
 
-	tcgetattr(STDERR_FILENO, &data->term_data);
 	tcgetattr(STDERR_FILENO, &data->original);
+	tcgetattr(STDERR_FILENO, &data->term_data);
 	load_data(data, argc, argv);
+	tcsetattr(STDERR_FILENO, 0, &data->term_data);
 	signal_setup();
-	assert(tcsetattr(STDERR_FILENO, 0, &data->term_data) != -1);
 }
