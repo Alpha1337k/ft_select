@@ -5,5 +5,5 @@ void	print_termcap(char *type)
 	char	*toprint;
 
 	toprint = get_termcap(type);
-	write(2, toprint, ft_strlen(toprint));
+	write(2, toprint, strlen(toprint));
 }

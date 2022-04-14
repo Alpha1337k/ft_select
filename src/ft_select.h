@@ -34,6 +34,7 @@ void	print_command(char *type);
 
 t_data	*get_data(void);
 char	*get_termcap(char *str);
+void	print_termcap(char *type);
 
 void	handle_signal(int type);
 
@@ -45,5 +46,7 @@ void	signal_setup(void);
 	libofzow
 */
 void	*ft_memset(void *d, char c, int n);
+int		ft_strlen(char *s);
+int		ft_strcmp(char *s1, char *s2);
 
 #endif

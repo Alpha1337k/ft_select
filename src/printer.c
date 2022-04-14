@@ -10,7 +10,7 @@ int	get_max_len(char **argv)
 	x = 0;
 	while (argv[x])
 	{
-		len = strlen(argv[x]);
+		len = ft_strlen(argv[x]);
 		if (len > max)
 			max = len;
 		x++;
@@ -20,7 +20,10 @@ int	get_max_len(char **argv)
 
 void	move(int x, int y)
 {
-	fprintf(stderr, "%s", (tgoto(get_termcap("cm"), x, y)));
+	char	*toprint;
+
+	toprint = tgoto(get_termcap("cm"), x, y);
+	write(2, toprint, ft_strlen(toprint));
 }
 
 int	calculate_row_offset(t_data *data, struct winsize *w)
@@ -52,24 +55,19 @@ void	print_files(t_data *d)
 
 	off = calculate_row_offset(d, &w);
 	x = d->columns * off;
-	fprintf(stderr, "%s", get_termcap("cl"));
+	print_termcap("cl");
 	while (d->files[x] && x / d->columns < off + w.ws_row)
 	{
 		move((x % d->columns) * d->max_file_len, (x / d->columns) - off);
-		if (x == d->index && d->selected_map[x] == 1)
-			fprintf(stderr, "%s%s%s%s%s", get_termcap("us"), get_termcap("mr"), \
-				d->files[x], get_termcap("ue"), get_termcap("me"));
-		else if (x == d->index)
-			fprintf(stderr, "%s%s%s", get_termcap("us"), d->files[x], \
-				get_termcap("ue"));
-		else if (d->selected_map[x] == 1)
-			fprintf(stderr, "%s%s%s", get_termcap("mr"), d->files[x], \
-				get_termcap("me"));
-		else
-			fprintf(stderr, "%s", d->files[x]);
+		if (x == d->index)
+			print_termcap("us");
+		if (d->selected_map[x])
+			print_termcap("mr");
+		write(2, d->files[x], ft_strlen(d->files[x]));
+		print_termcap("ue");
+		print_termcap("me");
 		x++;
 	}
-	fflush(stderr);
 }
 
 void	print_result(t_data *data)
@@ -85,14 +83,14 @@ void	print_result(t_data *data)
 		{
 			if (is_not_first == 1)
 			{
-				fprintf(stdout, " ");
+				write(1, " ", 1);
 			}
 			else
 				is_not_first = 1;
-			fprintf(stdout, "%s", data->files[x]);
+			write(1, data->files[x], ft_strlen(data->files[x]));
 		}
 		x++;
 	}
 	if (is_not_first)
-		fprintf(stdout, "\n");
+		write(1, "\n", 1);
 }

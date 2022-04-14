@@ -13,7 +13,7 @@ void	run(t_data *data)
 
 	while (1)
 	{
-		bzero(&str, 4096);
+		ft_memset(str, 0, 4096);
 		print_files(data);
 		if (read(STDIN_FILENO, str, 4096) <= 0)
 			break ;
@@ -22,8 +22,8 @@ void	run(t_data *data)
 			break ;
 	}
 	tcsetattr(STDERR_FILENO, 0, &data->original);
-	fprintf(stderr, "%s%s", get_termcap("te"), get_termcap("ve"));
-	fflush(stderr);
+	print_termcap("te");
+	print_termcap("ve");
 	if (ret == 0)
 		print_result(data);
 	free(data->selected_map);
@@ -41,7 +41,8 @@ int	main(int argc, char **argv)
 		return (0);
 	}
 	init(argc, argv);
-	fprintf(stderr, "%s%s", get_termcap("ti"), get_termcap("vi"));
+	print_termcap("ti");
+	print_termcap("vi");
 	run(data);
 	return (0);
 }

@@ -3,7 +3,7 @@ NAME=ft_select
 CC=gcc
 FLAGS=-Wall -Werror -Wextra
 DEBUG_FLAGS=-g -fsanitize=address
-SRC=src/*.c
+SRC=src/*.c lib/*.c
 LIBS=-I src/
 OBJ=
 RM =rm -rf

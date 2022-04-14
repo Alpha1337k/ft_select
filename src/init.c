@@ -21,7 +21,7 @@ void	load_data(t_data *data, int argc, char **argv)
 		data->max_file_len = get_max_len(data->files) + 1;
 		data->index = 0;
 		data->selected_map = malloc(data->file_count * sizeof(char));
-		ft_memset(data->selected_map, data->file_count);
+		ft_memset(data->selected_map, 0, data->file_count);
 	}
 	data->columns = 0;
 	data->term_data.c_lflag &= ~(ICANON | ECHO);
