@@ -6,7 +6,7 @@
 /*   By: anonymous <anonymous@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/14 23:05:01 by anonymous     #+#    #+#                 */
-/*   Updated: 2022/04/14 23:06:57 by anonymous     ########   odam.nl         */
+/*   Updated: 2022/04/14 23:13:47 by alpha         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	handle_exit(int type, t_data *data)
 	if (type == SIGTSTP)
 	{
 		signal(SIGTSTP, SIG_DFL);
-		ioctl(STDERR_FILENO, TIOCSTI, "\x1A");
+		ioctl(STDERR_FILENO, TIOCSTI, KEY_CTRL_Z);
 	}
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: anonymous <anonymous@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/14 23:05:09 by anonymous     #+#    #+#                 */
-/*   Updated: 2022/04/14 23:05:10 by anonymous     ########   odam.nl         */
+/*   Updated: 2022/04/14 23:10:50 by alpha         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ void	load_data(t_data *data, int argc, char **argv)
 		data->max_file_len = get_max_len(data->files) + 1;
 		data->index = 0;
 		data->selected_map = malloc(data->file_count * sizeof(char));
+		if (!data->selected_map)
+		{
+			write(2, "Error: malloc fail\n", 20);
+			exit(1);
+		}
 		ft_memset(data->selected_map, 0, data->file_count);
 	}
 	data->columns = 0;
@@ -51,7 +56,10 @@ void	init(int argc, char **argv)
 		exit(1);
 	}
 	if (tgetent(buf, getenv("TERM")) < 1)
-		assert(0);
+	{
+		write(2, "Error: no enviroment\n", 22);
+		exit(1);
+	}
 	tcgetattr(STDERR_FILENO, &data->original);
 	tcgetattr(STDERR_FILENO, &data->term_data);
 	load_data(data, argc, argv);
