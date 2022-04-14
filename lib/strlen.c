@@ -1,9 +1,23 @@
-int ft_strlen(char *s)
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   strlen.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: anonymous <anonymous@student.codam.nl>       +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/04/14 23:05:18 by anonymous     #+#    #+#                 */
+/*   Updated: 2022/04/14 23:06:49 by anonymous     ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
+int	ft_strlen(char *s)
 {
-	int x = 0;
+	int	x;
+
+	x = 0;
 	while (s[x])
 	{
 		x++;
 	}
-	return x;
+	return (x);
 }
