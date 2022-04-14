@@ -1,13 +1,27 @@
 #include <ft_select.h>
 
-void signal_setup();
-
-void handle_signal(int type)
+void	handle_exit(int type, t_data *data)
 {
-	t_data *data = get_data();
+	tcsetattr(STDERR_FILENO, 0, &data->original);
+	fprintf(stderr, "%s%s", get_termcap("te"), get_termcap("ve"));
+	fflush(stderr);
+	if (type == SIGTSTP)
+	{
+		signal(SIGTSTP, SIG_DFL);
+		ioctl(STDERR_FILENO, TIOCSTI, "\x1A");
+	}
+	else
+	{
+		free(data->selected_map);
+		exit(1);
+	}
+}
 
-	printf("SIGNALZZ %d\n", type);
+void	handle_signal(int type)
+{
+	t_data	*data;
 
+	data = get_data();
 	if (type == SIGCONT)
 	{
 		init(0, 0);
@@ -15,27 +29,9 @@ void handle_signal(int type)
 		print_files(data);
 	}
 	else if (type == SIGWINCH)
-	{
 		print_files(data);
-	}
 	else
 	{
-		tcsetattr(STDERR_FILENO, 0, &data->original);
-		fprintf(stderr, "%s%s", get_termcap("te"), get_termcap("ve"));
-			
-		fflush(stderr);
-		fflush(stdout);
-
-		if (type == SIGTSTP)
-		{
-			signal(SIGTSTP, SIG_DFL);
-			ioctl(STDERR_FILENO, TIOCSTI, "\x1A");
-		}
-		else
-		{
-			free(data->selected_map);
-			exit(1);
-		}
+		handle_exit(type, data);
 	}
-
 }

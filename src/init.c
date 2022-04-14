@@ -1,6 +1,6 @@
 #include <ft_select.h>
 
-void signal_setup()
+void	signal_setup(void)
 {
 	signal(SIGWINCH, handle_signal);
 	signal(SIGABRT, handle_signal);
@@ -12,7 +12,7 @@ void signal_setup()
 	signal(SIGQUIT, handle_signal);
 }
 
-void load_data(t_data *data, int argc, char **argv)
+void	load_data(t_data *data, int argc, char **argv)
 {
 	if (argv != 0)
 	{
@@ -20,18 +20,19 @@ void load_data(t_data *data, int argc, char **argv)
 		data->file_count = argc - 1;
 		data->max_file_len = get_max_len(data->files) + 1;
 		data->index = 0;
-		data->selected_map = calloc(data->file_count, sizeof(char));
+		data->selected_map = malloc(data->file_count * sizeof(char));
+		ft_memset(data->selected_map, data->file_count);
 	}
 	data->columns = 0;
 	data->term_data.c_lflag &= ~(ICANON | ECHO);
 }
 
-
-void init(int argc, char **argv)
+void	init(int argc, char **argv)
 {
-	t_data *data = get_data();
-    char buf[1024];
+	t_data	*data;
+	char	buf[1024];
 
+	data = get_data();
 	if (isatty(STDERR_FILENO) == 0)
 	{
 		write(2, "Error: terminal expected\n", 26);
@@ -39,7 +40,6 @@ void init(int argc, char **argv)
 	}
 	if (tgetent(buf, getenv("TERM")) < 1)
 		assert(0);
-
 	tcgetattr(STDERR_FILENO, &data->original);
 	tcgetattr(STDERR_FILENO, &data->term_data);
 	load_data(data, argc, argv);
