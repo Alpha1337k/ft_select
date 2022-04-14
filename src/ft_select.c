@@ -10,6 +10,7 @@ void run(t_data *data)
 {
 	char str[4096 + 1];
 	int ret;
+	
 	while (1)
 	{
 		bzero(&str, 4096);
