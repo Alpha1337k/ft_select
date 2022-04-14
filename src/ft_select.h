@@ -6,7 +6,7 @@
 /*   By: anonymous <anonymous@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/14 23:05:11 by anonymous     #+#    #+#                 */
-/*   Updated: 2022/04/14 23:23:02 by alpha         ########   odam.nl         */
+/*   Updated: 2022/04/14 23:34:13 by alpha         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define KEY_LEFT	"\e[D"
 # define KEY_ESCAPE	"\e"
 # define KEY_BACKSPC	"\x7f"
-# define KEY_DELT	"\e[3\x7e"
+# define KEY_DLT	"\e[3\x7e"
 
 typedef struct s_data
 {
