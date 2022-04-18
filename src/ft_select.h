@@ -6,7 +6,7 @@
 /*   By: anonymous <anonymous@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/14 23:05:11 by anonymous     #+#    #+#                 */
-/*   Updated: 2022/04/14 23:34:13 by alpha         ########   odam.nl         */
+/*   Updated: 2022/04/18 19:19:55 by alpha         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,14 @@ int		get_max_len(char **argv);
 
 int		read_command(t_data *data, char *str);
 void	print_command(char *type);
+void	print_termcap(char *type);
 
 t_data	*get_data(void);
 char	*get_termcap(char *str);
-void	print_termcap(char *type);
 
 void	handle_signal(int type);
 
 void	init(int argc, char **argv);
-void	run(t_data *data);
-void	signal_setup(void);
 
 /*
 	libofzow

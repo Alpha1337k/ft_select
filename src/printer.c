@@ -6,7 +6,7 @@
 /*   By: anonymous <anonymous@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/14 23:05:04 by anonymous     #+#    #+#                 */
-/*   Updated: 2022/04/14 23:46:37 by alpha         ########   odam.nl         */
+/*   Updated: 2022/04/18 19:18:32 by alpha         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	move(int x, int y)
 	write(2, toprint, ft_strlen(toprint));
 }
 
-int	calculate_row_offset(t_data *data, struct winsize *w)
+static int	calculate_row_offset(t_data *data, struct winsize *w)
 {
 	static int		last_render_offset = 0;
 	int				needed_rows;

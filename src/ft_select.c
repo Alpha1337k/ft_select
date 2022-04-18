@@ -6,19 +6,19 @@
 /*   By: anonymous <anonymous@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/14 23:05:13 by anonymous     #+#    #+#                 */
-/*   Updated: 2022/04/14 23:05:14 by anonymous     ########   odam.nl         */
+/*   Updated: 2022/04/18 19:16:35 by alpha         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft_select.h>
 #include <termcap.h>
 
-void	help(void)
+static void	help(void)
 {
 	write(2, "Usage: ft_select [files..]\n", 28);
 }
 
-void	run(t_data *data)
+static void	run(t_data *data)
 {
 	char	str[4096 + 1];
 	int		ret;

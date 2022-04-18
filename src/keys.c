@@ -6,13 +6,13 @@
 /*   By: anonymous <anonymous@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/14 23:05:06 by anonymous     #+#    #+#                 */
-/*   Updated: 2022/04/18 19:07:07 by alpha         ########   odam.nl         */
+/*   Updated: 2022/04/18 19:17:41 by alpha         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft_select.h>
 
-void	calc_column(int old, t_data *data)
+static void	calc_column(int old, t_data *data)
 {
 	int	remain;	
 	int	new_column;
@@ -34,7 +34,7 @@ void	calc_column(int old, t_data *data)
 		data->index = data->file_count - remain - data->columns + new_column;
 }
 
-int	read_arrows(t_data *data, char *str)
+static int	read_arrows(t_data *data, char *str)
 {
 	int	old;
 
