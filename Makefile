@@ -6,7 +6,7 @@
 #    By: anonymous <anonymous@student.codam.nl>       +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/04/14 23:04:48 by anonymous     #+#    #+#                  #
-#    Updated: 2022/04/14 23:09:38 by alpha         ########   odam.nl          #
+#    Updated: 2022/04/18 19:28:25 by alpha         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,18 @@ NAME=ft_select
 CC=gcc
 FLAGS=-Wall -Werror -Wextra
 DEBUG_FLAGS=-g -fsanitize=address
-SRC=src/*.c lib/*.c
+SRC= \
+	lib/memset.c 	\
+	lib/strcmp.c	\
+	lib/strlen.c	\
+	src/caches.c	\
+	src/ft_select.c	\
+	src/ft_select.h	\
+	src/init.c		\
+	src/keys.c		\
+	src/printer.c	\
+	src/signal.c	\
+	src/writer.c
 LIBS=-I src/
 OBJ=
 RM =rm -rf
