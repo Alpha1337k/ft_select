@@ -6,14 +6,39 @@
 /*   By: anonymous <anonymous@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/14 23:05:06 by anonymous     #+#    #+#                 */
-/*   Updated: 2022/04/14 23:23:12 by alpha         ########   odam.nl         */
+/*   Updated: 2022/04/18 19:07:07 by alpha         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft_select.h>
 
+void	calc_column(int old, t_data *data)
+{
+	int	remain;	
+	int	new_column;
+
+	if (data->file_count <= data->columns)
+	{
+		data->index = (old % data->columns) - 1;
+		if (data->index < 0)
+			data->index = data->file_count - 1;
+		return ;
+	}
+	new_column = (old % data->columns) - 1;
+	remain = data->file_count % data->columns;
+	if (new_column == -1)
+		new_column = data->columns - 1;
+	if (new_column <= remain - 1)
+		data->index = data->file_count - remain + new_column;
+	else
+		data->index = data->file_count - remain - data->columns + new_column;
+}
+
 int	read_arrows(t_data *data, char *str)
 {
+	int	old;
+
+	old = data->index;
 	if (ft_strcmp(str, KEY_UP) == 0 || ft_strcmp(str, "w") == 0)
 		data->index -= data->columns;
 	else if (ft_strcmp(str, KEY_LEFT) == 0 || ft_strcmp(str, "a") == 0)
@@ -23,9 +48,17 @@ int	read_arrows(t_data *data, char *str)
 	else if (ft_strcmp(str, KEY_RIGHT) == 0 || ft_strcmp(str, "d") == 0)
 		data->index++;
 	if (data->index >= data->file_count)
-		data->index = data->index - data->file_count;
+	{
+		if (data->file_count <= data->columns)
+			data->index = old + 1;
+		else
+			data->index = (old % data->columns) + 1;
+		if (data->index >= data->columns || \
+		(data->file_count <= data->columns && data->index >= data->file_count))
+			data->index = 0;
+	}
 	else if (data->index < 0)
-		data->index = data->file_count + data->index;
+		calc_column(old, data);
 	return (1);
 }
 
@@ -50,6 +83,8 @@ int	read_command(t_data *data, char *str)
 		data->selected_map[data->index] = 1;
 		data->selected_len++;
 		data->index++;
+		if (data->index >= data->file_count)
+			data->index = 0;
 	}
 	return (read_arrows(data, str));
 }
