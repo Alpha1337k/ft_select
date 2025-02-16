@@ -1,2 +1,3 @@
 # ft_select
-termcaps and such
+
+***Final grade***: [119 / 100]
